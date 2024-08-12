@@ -1,8 +1,10 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
+/* src/Decorations/widget.module.css */
+.widget_widget {
+  white-space: normal;
+  padding: 0.7rem;
+  background: #2a2a2a;
+  > p {
+    margin: 0;
+  }
+}
+/*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic3JjL0RlY29yYXRpb25zL3dpZGdldC5tb2R1bGUuY3NzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIud2lkZ2V0IHtcblx0d2hpdGUtc3BhY2U6IG5vcm1hbDtcblx0cGFkZGluZzogMC43cmVtO1xuXHRiYWNrZ3JvdW5kOiAjMmEyYTJhO1xuXHQ+IHAge1xuXHRcdG1hcmdpbjogMDtcblx0fVxufVxuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUFBLENBQUNBO0FBQ0EsZUFBYTtBQUNiLFdBQVM7QUFDVCxjQUFZO0FBQ1osSUFBRTtBQUNELFlBQVE7QUFDVDtBQUNEOyIsCiAgIm5hbWVzIjogWyJ3aWRnZXQiXQp9Cg== */

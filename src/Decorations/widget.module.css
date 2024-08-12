@@ -1,0 +1,8 @@
+.widget {
+	white-space: normal;
+	padding: 0.7rem;
+	background: #2a2a2a;
+	> p {
+		margin: 0;
+	}
+}
