@@ -5,12 +5,14 @@ function escapeRegex(val: string) {
 }
 
 export function parseText(text: string, prefix: string) {
-	const replaceRegex = new RegExp(`${escapeRegex(prefix)}((?:\\d. )?[a-zA-Z]+ \\d+(?:,\\d+(?:-\\d+|-)?|,)?)`, 'g');
+	const replaceRegex = new RegExp(`${escapeRegex(prefix)}((?:\\d. )?[a-zA-Z]+ \\d+(?:,\\d+(?:-\\d+|-)?|,)?)(!?)`, 'g');
 	const matches = text.matchAll(replaceRegex);
 
 	const result: ParseResultType[] = [];
 
-	for (let {0: match, 1: bibleReference, index} of matches) {
+	for (let {0: match, 1: bibleReference, 2: includeCommentsMatch, index} of matches) {
+		const includeComments = includeCommentsMatch === '!';
+
 		const [chapter, verses] = bibleReference.split(',');
 		const bookParts = chapter.split(' ');
 		bookParts.pop();
@@ -36,7 +38,8 @@ export function parseText(text: string, prefix: string) {
 			},
 			startIndex: index ?? 0,
 			endIndex: (index ?? 0) + match.length,
-			bibleReference
+			bibleReference: bibleReference+includeCommentsMatch,
+			includeComments
 		});
 	}
 

@@ -6,4 +6,8 @@
   > p {
     margin: 0;
   }
+  cursor: pointer;
+}
+.widget_widget + br {
+  display: none;
 }

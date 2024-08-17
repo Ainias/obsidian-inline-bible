@@ -22,6 +22,19 @@ export class BibleVersesWidget extends WidgetType {
 	toDOM() {
 		const container = document.createElement("div");
 		container.classList.add(styles.widget);
+		container.classList.add("bible-chapter");
+		container.classList.add("markdown-rendered");
+		container.addEventListener("click", (e) => {
+			console.log("Target", e.target);
+			if (e.target instanceof HTMLAnchorElement){
+				return;
+			}
+
+			// TODO scroll to position
+			this.plugin.app.workspace.openLinkText(this.filePath, "", e.altKey || e.metaKey)
+		})
+
+
 		MarkdownRenderer.render(this.plugin.app, this.markdownContent, container, this.filePath, this.plugin);
 		return container;
 	}

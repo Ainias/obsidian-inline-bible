@@ -5,4 +5,9 @@
 	> p {
 		margin: 0;
 	}
+	cursor: pointer;
+}
+
+.widget+br {
+	display: none;
 }

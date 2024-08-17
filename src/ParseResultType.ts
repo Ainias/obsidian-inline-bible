@@ -8,4 +8,5 @@ export type ParseResultType = {
 	startIndex: number;
 	endIndex: number
 	bibleReference: string;
+	includeComments: boolean;
 }

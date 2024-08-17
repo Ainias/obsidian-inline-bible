@@ -1,0 +1,15 @@
+- [x] Entfernen von Leerzeile nach Bibelstelle im EditView
+- [x] Editieren vor Bibelstelle sorgt für komische Sprünge
+- [x] Verlnkung zum File durch Klick auf Bibelstelle 
+- [x] Update der Verknüpfungen beim Ändern des Bibeltextes
+- [x] Verlinkungen mit Kommentaren
+- [ ] Scrollen zum ersten Vers in Bibelstellenfile 
+- [ ] Bibelstellen collapsible machen 
+- [ ] Erlauben über mehrere Kapitel zu verlinken
+- [x] Bibelstelle in EditView ausblenden (Wenn Verlinkung bereits umgesetzt ist)
+- [x] Mobile Darstellung
+- [ ] Visuelle Abhebung von Kommentaren im Bibeltext
+  - Eingerückt 
+  - Mit Linie abgetrennt
+  - Ein/Ausschaltbar in den Einstellungen
+- [ ] Styles an Theme anpassen (Mit Variablen arbeiten)

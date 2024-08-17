@@ -6,13 +6,13 @@ import { BibleVersesWidget } from "./BibleVersesWidget";
 import { decorationsStateField } from "./decorationsStateField";
 import { decorationUpdateEffect } from "./decorationUpdateEffect";
 import { buildMarkdown } from "../buildMarkdown";
+import { DecorationCache } from "./DecorationCache";
 
-// Heavily inspired by https://github.com/ozntel/oz-image-in-editor-obsidian/blob/master/src/cm6/decorations.ts#L10
+
 
 export function getDecorationViewPlugin(plugin: InlineBiblePlugin) {
 
 	class DecorationCreatorPlugin implements PluginValue {
-		private cachedDecorations: Record<string, Promise<Decoration>> = {};
 		private editor: EditorView;
 
 		constructor(view: EditorView) {
@@ -41,16 +41,11 @@ export function getDecorationViewPlugin(plugin: InlineBiblePlugin) {
 				const line = doc.line(i);
 				const results = parseText(line.text, plugin.settings.prefix);
 				for (const result of results) {
-					if (!this.cachedDecorations[result.bibleReference]) {
-						this.cachedDecorations[result.bibleReference] = buildMarkdown(plugin, result).then(({versesContent,filePath }) => Decoration.replace({
-							widget: new BibleVersesWidget({markdownContent: versesContent, plugin, filePath }),
-							inclusive: false
-						}));
-					}
+					const currentDecorationPromise = DecorationCache.instance.getDecoration(result);
 
 					decorationPromise = decorationPromise.then(async () => {
 						// Add with endIndex to not replace anything
-						rangeBuilder.add(line.from + result.endIndex, line.from + result.endIndex, await this.cachedDecorations[result.bibleReference]);
+						rangeBuilder.add(line.from + result.endIndex, line.from + result.endIndex, await currentDecorationPromise);
 					})
 				}
 			}
@@ -59,8 +54,6 @@ export function getDecorationViewPlugin(plugin: InlineBiblePlugin) {
 			await decorationPromise;
 			const decorations = rangeBuilder.finish();
 			if (decorations.size || this.editor.state.field(decorationsStateField).size) {
-				// Wait for the next frame to update the decorations
-				await new Promise(r => setTimeout(r, 1));
 				view.dispatch({effects: decorationUpdateEffect.of(decorations)});
 			}
 		}
