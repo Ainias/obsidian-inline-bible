@@ -1,4 +1,6 @@
+import "src/basic.css";
 import {
+	MarkdownView,
 	Plugin,
 } from 'obsidian';
 import { InlineBibleSettingTab } from "./src/SettingsTab";
@@ -8,6 +10,7 @@ import { getDecorationViewPlugin } from "./src/Decorations/getDecorationViewPlug
 import { buildMarkdown } from "./src/buildMarkdown";
 import { BibleVersesWidget } from "./src/Decorations/BibleVersesWidget";
 import { DecorationCache } from "./src/Decorations/DecorationCache";
+import { addNoteClass } from "./src/notes/addNoteClass";
 
 // Remember to rename these classes and interfaces!
 
@@ -54,12 +57,18 @@ export default class InlineBiblePlugin extends Plugin {
 				const endString = html.substring(result.endIndex);
 				html = startString + `<span id="${id}">${result.bibleReference}</span>` + endString;
 				buildMarkdown(this, result).then(({filePath, versesContent}) => {
-					const markdownElement = new BibleVersesWidget({markdownContent: versesContent, plugin: this, filePath}).toDOM();
+					const markdownElement = new BibleVersesWidget({
+						markdownContent: versesContent,
+						plugin: this,
+						filePath
+					}).toDOM();
 					el.querySelector(`#${id}`)?.replaceWith(markdownElement);
 				});
 			}
 			el.innerHTML = html;
-		})
+		});
+
+		this.registerEvent(this.app.workspace.on('layout-change', () => addNoteClass(this)))
 	}
 
 	onunload() {

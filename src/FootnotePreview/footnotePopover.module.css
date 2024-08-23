@@ -1,0 +1,7 @@
+.popover {
+	padding: 0 1rem;
+}
+
+.popover > p > a:last-child {
+	display: none;
+}

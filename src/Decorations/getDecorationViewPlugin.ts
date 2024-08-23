@@ -42,7 +42,6 @@ export function getDecorationViewPlugin(plugin: InlineBiblePlugin) {
 				const results = parseText(line.text, plugin.settings.prefix);
 				for (const result of results) {
 					const currentDecorationPromise = DecorationCache.instance.getDecoration(result);
-
 					decorationPromise = decorationPromise.then(async () => {
 						// Add with endIndex to not replace anything
 						rangeBuilder.add(line.from + result.endIndex, line.from + result.endIndex, await currentDecorationPromise);

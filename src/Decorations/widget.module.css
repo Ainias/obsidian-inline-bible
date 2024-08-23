@@ -1,7 +1,7 @@
 .widget {
 	white-space: normal;
 	padding: 0.7rem;
-	background: #2a2a2a;
+	background: var(--oib-reference-background, #2a2a2a);
 	> p {
 		margin: 0;
 	}
@@ -10,4 +10,11 @@
 
 .widget+br {
 	display: none;
+}
+
+.widget :global(.footnotes) {
+	display: none;
+}
+
+.footnote {
 }

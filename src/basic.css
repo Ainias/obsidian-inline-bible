@@ -1,0 +1,11 @@
+@import "variables.css";
+
+.small-caps {
+	font-variant: small-caps;
+}
+
+.references {
+	font-size: 0.7em;
+	padding-bottom: 0.5rem;
+	display: inline-block;
+}

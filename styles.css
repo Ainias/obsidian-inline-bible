@@ -1,8 +1,28 @@
+/* src/variables.css */
+.theme-dark {
+  --oib-note-color: #888;
+  --oib-reference-background: #333333;
+}
+.theme-light {
+  --oib-note-color: #a0a0a0;
+  --oib-reference-background: #f6f6f6;
+}
+
+/* src/basic.css */
+.small-caps {
+  font-variant: small-caps;
+}
+.references {
+  font-size: 0.7em;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
 /* src/Decorations/widget.module.css */
 .widget_widget {
   white-space: normal;
   padding: 0.7rem;
-  background: #2a2a2a;
+  background: var(--oib-reference-background, #2a2a2a);
   > p {
     margin: 0;
   }
@@ -10,4 +30,29 @@
 }
 .widget_widget + br {
   display: none;
+}
+.widget_widget .footnotes {
+  display: none;
+}
+.widget_footnote {
+}
+
+/* src/FootnotePreview/footnotePopover.module.css */
+.footnotePopover_popover {
+  padding: 0 1rem;
+}
+.footnotePopover_popover > p > a:last-child {
+  display: none;
+}
+
+/* src/notes/addNoteClass.module.css */
+.addNoteClass_bibleChapter .HyperMD-list-line,
+.addNoteClass_bibleChapter li {
+  color: var(--oib-note-color, #888);
+}
+.addNoteClass_bibleChapter ul {
+  margin-block-start: 0;
+}
+.addNoteClass_bibleChapter p {
+  margin-block-end: 0;
 }

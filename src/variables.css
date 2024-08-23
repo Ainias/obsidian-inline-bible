@@ -1,0 +1,9 @@
+.theme-dark {
+	--oib-note-color: #888;
+	--oib-reference-background: #333333;
+}
+
+.theme-light {
+	--oib-note-color: #a0a0a0;
+	--oib-reference-background: #f6f6f6;
+}

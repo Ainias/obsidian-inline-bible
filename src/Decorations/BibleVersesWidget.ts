@@ -2,6 +2,8 @@ import styles from "./widget.module.css";
 import { WidgetType } from "@codemirror/view";
 import { MarkdownRenderer } from "obsidian";
 import InlineBiblePlugin from "../../main";
+import { FootnotePopover } from "../FootnotePreview/FootnotePopover";
+import noteStyles from "../notes/addNoteClass.module.css";
 
 export class BibleVersesWidget extends WidgetType {
 	private plugin: InlineBiblePlugin;
@@ -22,10 +24,9 @@ export class BibleVersesWidget extends WidgetType {
 	toDOM() {
 		const container = document.createElement("div");
 		container.classList.add(styles.widget);
-		container.classList.add("bible-chapter");
+		container.classList.add(noteStyles.bibleChapter);
 		container.classList.add("markdown-rendered");
 		container.addEventListener("click", (e) => {
-			console.log("Target", e.target);
 			if (e.target instanceof HTMLAnchorElement){
 				return;
 			}
@@ -35,7 +36,18 @@ export class BibleVersesWidget extends WidgetType {
 		})
 
 
-		MarkdownRenderer.render(this.plugin.app, this.markdownContent, container, this.filePath, this.plugin);
+		MarkdownRenderer.render(this.plugin.app, this.markdownContent, container, this.filePath, this.plugin).then(() => {
+			container.querySelectorAll<HTMLLinkElement>("a.footnote-link").forEach((el) => {
+				// Important to override class of obsidian or else the default popup of obsidian will also be shown
+				el.className = styles.footnote;
+				el.addEventListener("mouseenter", () => {
+					new FootnotePopover(el);
+				})
+				el.addEventListener("click", (e) => {
+					new FootnotePopover(el).load();
+				})
+			})
+		});
 		return container;
 	}
 }

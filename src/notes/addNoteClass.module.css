@@ -1,0 +1,10 @@
+.bibleChapter :global(.HyperMD-list-line), .bibleChapter li{
+	color: var(--oib-note-color, #888);
+}
+
+.bibleChapter ul:global {
+	margin-block-start: 0;
+}
+.bibleChapter p {
+	margin-block-end: 0;
+}

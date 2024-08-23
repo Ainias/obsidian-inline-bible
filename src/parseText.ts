@@ -5,13 +5,12 @@ function escapeRegex(val: string) {
 }
 
 export function parseText(text: string, prefix: string) {
-	const replaceRegex = new RegExp(`${escapeRegex(prefix)}((?:\\d. )?[a-zA-Z]+ \\d+(?:,\\d+(?:-\\d+|-)?|,)?)(!?)`, 'g');
+	const replaceRegex = new RegExp(`${escapeRegex(prefix)}((?:\\d\\.? ?)?[a-zA-ZäöüÄÖÜ]+ \\d+(?:,(?:\\d+(?:-(?:\\d+(?:,(?:\\d+)?)?)?)?)?)?)(!?)([.^]?)`, 'g');
 	const matches = text.matchAll(replaceRegex);
-
 	const result: ParseResultType[] = [];
 
-	for (let {0: match, 1: bibleReference, 2: includeCommentsMatch, index} of matches) {
-		const includeComments = includeCommentsMatch === '!';
+	for (let {0: match, 1: bibleReference, 2: excludeCommentsModifierMatch, 3: otherModifier, index} of matches) {
+		const excludeCommentsModifier = excludeCommentsModifierMatch === '!';
 
 		const [chapter, verses] = bibleReference.split(',');
 		const bookParts = chapter.split(' ');
@@ -38,8 +37,11 @@ export function parseText(text: string, prefix: string) {
 			},
 			startIndex: index ?? 0,
 			endIndex: (index ?? 0) + match.length,
-			bibleReference: bibleReference+includeCommentsMatch,
-			includeComments
+			// is also the key for the decoration cache
+			bibleReference: bibleReference+excludeCommentsModifierMatch+otherModifier,
+			excludeCommentsModifier,
+			linkOnly: otherModifier === '.',
+			collapsed: otherModifier === '^'
 		});
 	}
 
