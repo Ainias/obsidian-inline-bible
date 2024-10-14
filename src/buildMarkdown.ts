@@ -9,12 +9,13 @@ export async function buildMarkdown(plugin: InlineBiblePlugin, parseResult: Pars
 		throw new Error(`Chapter file not found: ${parseResult.book} ${parseResult.chapter} ${getFilePath(plugin.settings.bibleLocation, parseResult.chapter)}`);
 	}
 
-	const content = await plugin.app.vault.cachedRead(chapterFile)
 	let versesContent = showReference ? `[[${chapterFile.path}|${parseResult.bibleReference}]]\n` : ``;
 	if (parseResult.linkOnly || parseResult.collapsed) {
 		return {versesContent, filePath: chapterFile.path};
 	}
 
+	const startSymbol = plugin.settings.prefix;
+	const content = await plugin.app.vault.cachedRead(chapterFile)
 	const footnotes: string[] = [];
 	let verseNumber = -1;
 	const lines = content.split("\n");
@@ -33,7 +34,7 @@ export async function buildMarkdown(plugin: InlineBiblePlugin, parseResult: Pars
 				continue;
 			}
 
-			if (content.startsWith("#") || content.startsWith("<span class=\"references\">") ||verseNumber > parseResult.verses.end || (!isVerse && parseResult.excludeCommentsModifier)){
+			if (content.startsWith("#") || content.startsWith(`\`${startSymbol}`) ||verseNumber > parseResult.verses.end || (!isVerse && parseResult.excludeCommentsModifier)){
 				continue;
 			}
 

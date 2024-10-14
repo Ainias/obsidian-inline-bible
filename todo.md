@@ -3,13 +3,20 @@
 - [x] Verlnkung zum File durch Klick auf Bibelstelle 
 - [x] Update der Verknüpfungen beim Ändern des Bibeltextes
 - [x] Verlinkungen mit Kommentaren
+- [ ] BUG: Verlinkungen in Popovers funktionieren nicht
 - [ ] Scrollen zum ersten Vers in Bibelstellenfile 
 - [ ] Bibelstellen collapsible machen 
-- [ ] Erlauben über mehrere Kapitel zu verlinken
+- [ ] Erlauben über mehrere Kapitel zu verlinken 
+- [ ] Erlauben mehrere Stellen aus einem Buch zu verlinken
+- [x] Hover über Bibelstelle solle Bibelstelle an richtiger Stelle anzeigen
+  - [x] Read Mode 
+  - [x] Edit Mode
+  - [x] Edit Mode unter Cursor
+  - [x] Read Mode UI Bug
 - [x] Bibelstelle in EditView ausblenden (Wenn Verlinkung bereits umgesetzt ist)
 - [x] Mobile Darstellung
 - [ ] Visuelle Abhebung von Kommentaren im Bibeltext
   - Eingerückt 
-  - Mit Linie abgetrennt
-  - Ein/Ausschaltbar in den Einstellungen
-- [ ] Styles an Theme anpassen (Mit Variablen arbeiten)
+  - Mit Linie abgetrennt (?)
+  - [ ] Ein/Ausschaltbar in den Einstellungen
+- [x] Styles an Theme anpassen (Mit Variablen arbeiten)

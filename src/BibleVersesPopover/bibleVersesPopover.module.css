@@ -1,0 +1,7 @@
+.popover {
+	background: var(--oib-reference-background);
+	&.withMargin {
+		padding: 0.7rem;
+	}
+}
+.popoverLink {}

@@ -18,13 +18,14 @@ The bible is in a format that is easy to read, understand and modify:
 	- Headings
 	- Bible references
 - If you only want to include verses and no comments, you can change that with the `!` modifier 
-  - (WIP) or in the settings 
+  - (WIP) or you can change the default behavior in the settings 
 
 ## References
 References are in the format `@Book Chapter,Verse-Verse` or (WIP) `@Book Chapter,Verse-Chapter,Verse`. 
 They start always with `@` (can be changed inside the settings) followed by the book, chapter and verse.
 (WIP) In the top-right there is a chevron which can be used to retract the reference. This will be saved, as it only
 adds or removes a `^` (see below) at the end of a reference.
+Double-Click (or Command-Click/Alt-Click) on the reference will open the bible chapter (in a new tab).
 
 You can modify the citation by adding a symbol at the end:
 - With a `^` at the end: the reference is retracted. It will still go over the complete width, but is now smaller. 

@@ -1,4 +1,5 @@
 .popover {
+	background: var(--oib-reference-background);
 	padding: 0 1rem;
 }
 

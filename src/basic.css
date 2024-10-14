@@ -9,3 +9,7 @@
 	padding-bottom: 0.5rem;
 	display: inline-block;
 }
+
+.bible-link-indication {
+	color: var(--link-color);
+}

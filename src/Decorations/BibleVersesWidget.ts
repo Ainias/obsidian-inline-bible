@@ -4,21 +4,34 @@ import { MarkdownRenderer } from "obsidian";
 import InlineBiblePlugin from "../../main";
 import { FootnotePopover } from "../FootnotePreview/FootnotePopover";
 import noteStyles from "../notes/addNoteClass.module.css";
+import { ParseResultType } from "../ParseResultType";
+import { BibleVersesPopover } from "../BibleVersesPopover/BibleVersesPopover";
+import { openParseResult } from "../helper/openParseResult";
 
 export class BibleVersesWidget extends WidgetType {
 	private plugin: InlineBiblePlugin;
 	private markdownContent: string;
 	private filePath: string;
+	private reference: ParseResultType;
+	private showReference: boolean;
 
-	constructor({markdownContent, plugin, filePath}: {markdownContent: string, plugin: InlineBiblePlugin, filePath: string}){
+	constructor({markdownContent, plugin, filePath, reference, showReference}: {
+		markdownContent: string,
+		plugin: InlineBiblePlugin,
+		filePath: string,
+		reference: ParseResultType,
+		showReference: boolean
+	}) {
 		super();
 		this.markdownContent = markdownContent;
 		this.plugin = plugin;
 		this.filePath = filePath;
+		this.reference = reference;
+		this.showReference = showReference;
 	}
 
 	eq(widget: BibleVersesWidget): boolean {
-		return widget.markdownContent === this.markdownContent && widget.filePath === this.filePath;
+		return widget.markdownContent === this.markdownContent && widget.filePath === this.filePath && this.reference.bibleReference === widget.reference.bibleReference;
 	}
 
 	toDOM() {
@@ -26,15 +39,26 @@ export class BibleVersesWidget extends WidgetType {
 		container.classList.add(styles.widget);
 		container.classList.add(noteStyles.bibleChapter);
 		container.classList.add("markdown-rendered");
+		if (this.reference.linkOnly) {
+			container.classList.add(styles.linkOnly);
+		}
+
 		container.addEventListener("click", (e) => {
-			if (e.target instanceof HTMLAnchorElement){
+			if (e.target instanceof HTMLAnchorElement) {
 				return;
 			}
 
-			// TODO scroll to position
-			this.plugin.app.workspace.openLinkText(this.filePath, "", e.altKey || e.metaKey)
-		})
+			if (e.altKey || e.metaKey) {
+				openParseResult(this.plugin, this.reference, e);
+			}
+		});
+		container.addEventListener("dblclick", (e) => {
+			if (e.target instanceof HTMLAnchorElement) {
+				return;
+			}
 
+			openParseResult(this.plugin, this.reference, e);
+		})
 
 		MarkdownRenderer.render(this.plugin.app, this.markdownContent, container, this.filePath, this.plugin).then(() => {
 			container.querySelectorAll<HTMLLinkElement>("a.footnote-link").forEach((el) => {
@@ -46,7 +70,27 @@ export class BibleVersesWidget extends WidgetType {
 				el.addEventListener("click", (e) => {
 					new FootnotePopover(el).load();
 				})
-			})
+			});
+			if (this.showReference) {
+				const el = container.querySelector<HTMLLinkElement>("a.internal-link")
+				if (!el) {
+					return;
+				}
+
+				// Important to override class of obsidian or else the default popup of obsidian will also be shown
+				el.className = styles.footnote;
+
+				// show popover on hover only for not shown references
+				if (this.reference.linkOnly || this.reference.collapsed) {
+					el.addEventListener("mouseenter", () => {
+						new BibleVersesPopover(el, {plugin: this.plugin, parseResult: this.reference, withMargin: true});
+					})
+				}
+				el.addEventListener("click", (e) => {
+					openParseResult(this.plugin, this.reference, e);
+				})
+			}
+
 		});
 		return container;
 	}

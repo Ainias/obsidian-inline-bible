@@ -17,6 +17,9 @@
   padding-bottom: 0.5rem;
   display: inline-block;
 }
+.bible-link-indication {
+  color: var(--link-color);
+}
 
 /* src/Decorations/widget.module.css */
 .widget_widget {
@@ -36,9 +39,15 @@
 }
 .widget_footnote {
 }
+.widget_widget.widget_linkOnly {
+  background: initial;
+  padding: 0;
+  display: inline-block;
+}
 
 /* src/FootnotePreview/footnotePopover.module.css */
 .footnotePopover_popover {
+  background: var(--oib-reference-background);
   padding: 0 1rem;
 }
 .footnotePopover_popover > p > a:last-child {
@@ -55,4 +64,14 @@
 }
 .addNoteClass_bibleChapter p {
   margin-block-end: 0;
+}
+
+/* src/BibleVersesPopover/bibleVersesPopover.module.css */
+.bibleVersesPopover_popover {
+  background: var(--oib-reference-background);
+  &.bibleVersesPopover_withMargin {
+    padding: 0.7rem;
+  }
+}
+.bibleVersesPopover_popoverLink {
 }

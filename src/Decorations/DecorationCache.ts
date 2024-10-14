@@ -36,7 +36,7 @@ export class DecorationCache {
 																										   versesContent,
 																										   filePath
 																									   }) => Decoration.replace({
-				widget: new BibleVersesWidget({markdownContent: versesContent, plugin: this.plugin, filePath}),
+				widget: new BibleVersesWidget({markdownContent: versesContent, plugin: this.plugin, filePath, reference, showReference: false}),
 				inclusive: false
 			}));
 			this.decorations[reference.bibleReference] = decoration;

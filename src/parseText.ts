@@ -23,7 +23,7 @@ export function parseText(text: string, prefix: string) {
 			verseParts = stringVerseParts.map(Number);
 			if (verseParts.length === 1) {
 				verseParts.push(verseParts[0]);
-			} else if (stringVerseParts[1].trim() === ""){
+			} else if (stringVerseParts[1].trim() === "" || verseParts[1] < verseParts[0]) {
 				verseParts[1] = verseParts[0];
 			}
 		}
@@ -39,6 +39,7 @@ export function parseText(text: string, prefix: string) {
 			endIndex: (index ?? 0) + match.length,
 			// is also the key for the decoration cache
 			bibleReference: bibleReference+excludeCommentsModifierMatch+otherModifier,
+			// bibleReference: match,
 			excludeCommentsModifier,
 			linkOnly: otherModifier === '.',
 			collapsed: otherModifier === '^'

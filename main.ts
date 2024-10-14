@@ -11,6 +11,7 @@ import { buildMarkdown } from "./src/buildMarkdown";
 import { BibleVersesWidget } from "./src/Decorations/BibleVersesWidget";
 import { DecorationCache } from "./src/Decorations/DecorationCache";
 import { addNoteClass } from "./src/notes/addNoteClass";
+import { addEditPopover } from "./src/BibleVersesPopover/addEditPopover";
 
 // Remember to rename these classes and interfaces!
 
@@ -44,15 +45,15 @@ export default class InlineBiblePlugin extends Plugin {
 
 		// Reading View
 		this.registerMarkdownPostProcessor(async (el, ctx) => {
-			let lastId = 0;
 			// Reverse so we can replace from the end and the indexes don't change
 			const results = parseText(el.innerHTML, this.settings.prefix).reverse();
 
 			let html = el.innerHTML;
 			for (let i = 0; i < results.length; i++) {
-				const id = `bible-inline-replace-${lastId}`;
+				const id = `bible-inline-replace-${i}`;
 
 				const result = results[i];
+
 				const startString = html.substring(0, result.startIndex);
 				const endString = html.substring(result.endIndex);
 				html = startString + `<span id="${id}">${result.bibleReference}</span>` + endString;
@@ -60,7 +61,9 @@ export default class InlineBiblePlugin extends Plugin {
 					const markdownElement = new BibleVersesWidget({
 						markdownContent: versesContent,
 						plugin: this,
-						filePath
+						filePath,
+						reference: result,
+						showReference: true
 					}).toDOM();
 					el.querySelector(`#${id}`)?.replaceWith(markdownElement);
 				});
@@ -68,7 +71,13 @@ export default class InlineBiblePlugin extends Plugin {
 			el.innerHTML = html;
 		});
 
-		this.registerEvent(this.app.workspace.on('layout-change', () => addNoteClass(this)))
+		this.registerEvent(this.app.workspace.on('layout-change', () => this.checkLayoutChanged()))
+		this.checkLayoutChanged();
+	}
+
+	checkLayoutChanged() {
+		addNoteClass(this);
+		addEditPopover(this);
 	}
 
 	onunload() {

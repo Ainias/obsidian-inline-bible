@@ -18,3 +18,8 @@
 
 .footnote {
 }
+.widget.linkOnly {
+	background: initial;
+	padding: 0;
+	display: inline-block;
+}
